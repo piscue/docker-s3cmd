@@ -1,11 +1,11 @@
-FROM alpine:3.3
+FROM alpine:3.8
 
-RUN apk update
-RUN apk add python py-pip py-setuptools git ca-certificates
-RUN pip install python-dateutil
+RUN apk update \
+ && apk add python py-pip py-setuptools git ca-certificates \
+ && pip install python-dateutil
 
-RUN git clone https://github.com/s3tools/s3cmd.git /opt/s3cmd
-RUN ln -s /opt/s3cmd/s3cmd /usr/bin/s3cmd
+RUN git clone https://github.com/s3tools/s3cmd.git /opt/s3cmd \
+ && ln -s /opt/s3cmd/s3cmd /usr/bin/s3cmd
 
 WORKDIR /opt
 
@@ -16,8 +16,8 @@ ADD ./files/main.sh /opt/main.sh
 RUN chmod 777 /opt/main.sh
 
 # Folders for s3cmd optionations
-RUN mkdir /opt/src
-RUN mkdir /opt/dest
+RUN mkdir /opt/src \
+ && mkdir /opt/dest
 
 WORKDIR /
 CMD ["/opt/main.sh"]
